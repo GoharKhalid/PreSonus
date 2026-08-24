@@ -1,10 +1,8 @@
-
-
 {% liquid
   assign order = 'logo,menu,localization,search,drawer_search,actions'
 
   if shop.customer_accounts_enabled
-    assign order = 'drawer_search,logo,menu,localization,search,actions'
+    assign order = 'drawer_search,logo,menu,search,localization,actions,my_footer_menu'
   endif
 
   assign rows = 'top,bottom' | split: ','
@@ -99,6 +97,17 @@
   capture actions
     render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
   endcapture
+  capture menu_one
+    content_for 'block', type: '_header-menu', id: 'header-menu-1'
+  endcapture
+
+  capture menu_two
+    content_for 'block', type: '_header-menu', id: 'header-menu-2'
+  endcapture
+
+  capture menu_three
+    content_for 'block', type: '_header-menu', id: 'header-menu-3'
+  endcapture
 
   if shop.customer_accounts_enabled
     assign search_class = 'search-action--hidden-on-drawer'
@@ -128,9 +137,15 @@
       endif
     endif
   endif
-  capture search
-    render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style
-  endcapture
+  if section.settings.show_search_form != false
+    capture search
+      render 'my_search_form'
+    endcapture
+  else
+    capture search
+      render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style
+    endcapture
+  endif
 
   # Skip drawer search under specific conditions:
   # Always render if search_row is bottom
@@ -308,7 +323,8 @@
         %}
       </div>
     </dropdown-localization-component>
-  {% endif %}
+  {% endif %}  
+
 {% endcapture %}
 
 <script type="application/ld+json">
@@ -456,12 +472,121 @@
       </div>
     {% endif %}
   {% endfor %}
+  {% comment %}
+    {% if section.settings.header_menu_one or section.settings.header_menu_two or section.settings.header_menu_three %}
+      <nav class="custom-header-menu">
 
-  {% if navigation_bar != blank %}
-    <div class="header__row header__navigation-bar-row">
-      {{ navigation_bar }}
+        {% if section.settings.header_menu_one %}
+          <a href="{{ linklists[section.settings.menu_one_list].links.first.url }}"
+             class="custom-menu-item active">
+            {{ section.settings.menu_one_title }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.header_menu_two %}
+          <a href="{{ linklists[section.settings.menu_two_list].links.first.url }}"
+             class="custom-menu-item">
+            {{ section.settings.menu_two_title }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.header_menu_three %}
+          <a href="{{ linklists[section.settings.menu_three_list].links.first.url }}"
+             class="custom-menu-item">
+            {{ section.settings.menu_three_title }}
+          </a>
+        {% endif %}
+
+      </nav>
+    {% endif %}
+    {% endif %}
+      {% if navigation_bar != blank %}
+        <div class="header__row header__navigation-bar-row">
+          {{ navigation_bar }}
+        </div>
+      {% endif %}
+  {% endcomment %}
+  {% comment %}
+    <div class="custom-navigation">
+
+      <div class="custom-navigation__titles">
+
+        {% if section.settings.header_menu_one %}
+          <button
+            type="button"
+            class="custom-navigation__title active"
+            data-menu="menu-one"
+          >
+            {{ section.settings.menu_one_title }}
+          </button>
+        {% endif %}
+
+        {% if section.settings.header_menu_two %}
+          <button
+            type="button"
+            class="custom-navigation__title"
+            data-menu="menu-two"
+          >
+            {{ section.settings.menu_two_title }}
+          </button>
+        {% endif %}
+
+        {% if section.settings.header_menu_three %}
+          <button
+            type="button"
+            class="custom-navigation__title"
+            data-menu="menu-three"
+          >
+            {{ section.settings.menu_three_title }}
+          </button>
+        {% endif %}
+
+      </div>
+
+      <div class="custom-navigation__submenu">
+
+        {% if section.settings.header_menu_one %}
+          <div class="custom-submenu active" data-submenu="menu-one">
+            {% for link in section.settings.menu_one_list.links %}
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.header_menu_two %}
+          <div class="custom-submenu" data-submenu="menu-two">
+            {% for link in section.settings.menu_two_list.links %}
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.header_menu_three %}
+          <div class="custom-submenu" data-submenu="menu-three">
+            {% for link in section.settings.menu_three_list.links %}
+              <a href="{{ link.url }}">
+                {{ link.title }}
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
     </div>
-  {% endif %}
+  {% endcomment %}
+  <div class="level_one_menu menu_levels active_menu" data-menu-slug="{{ section.settings.hover_slug_1 }}">
+    {{ menu_one }}
+  </div>
+  <div class="level_two_menu menu_levels inactive_menu" data-menu-slug="{{ section.settings.hover_slug_2 }}">
+    {{ menu_two }}
+  </div>
+  <div class="level_three_menu menu_levels inactive_menu" data-menu-slug="{{ section.settings.hover_slug_3 }}">
+    {{ menu_three }}
+  </div>
 </header-component>
 
 <script
@@ -470,6 +595,10 @@
 ></script>
 
 {% stylesheet %}
+
+  .inactive_menu{
+    display: none;
+  }
   body {
     --header-height: 60px;
     --header-group-height: var(--header-height);
@@ -1183,8 +1312,156 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
+  .custom-navigation {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  @media screen and (max-width: 749px) {
+    .custom-navigation {
+      display: none;
+    }
+  }
+  .custom-navigation__titles {
+    position: absolute;
+    top: -65px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  .custom-navigation__title {
+    position: relative;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .custom-navigation__title.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    height: 2px;
+    background: #111;
+  }
+  .custom-navigation__submenu {
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #e5e5e5;
+  }
+  .custom-submenu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+  .custom-submenu.active {
+    display: flex;
+  }
+  .custom-submenu a {
+    color: #111;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .custom-submenu a:hover {
+    text-decoration: underline;
+  }
+  header-menu,
+  .header-menu a {
+    color: black !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  header-menu,.header-menu a:hover {
+    color: black !important;
+  }
+  .active_menu{
+    border-top: 1px solid #e5e5e5;
+    height: 50px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
 {% endstylesheet %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const triggers = document.querySelectorAll('[data-menu-slug]');
+    const blocks = document.querySelectorAll('.menu_levels');
+    const headerComponent = document.querySelector('header-component');
 
+    function deactivateAll() {
+      blocks.forEach(function(block) {
+        block.classList.add('inactive_menu');
+        block.classList.remove('active_menu');
+      });
+      triggers.forEach(function(trigger) {
+        trigger.classList.remove('active');
+      });
+    }
+
+    triggers.forEach(function(trigger) {
+      trigger.addEventListener('pointerenter', function() {
+        const slug = this.getAttribute('data-menu-slug');
+        if (!slug) return;
+        const targetBlock = document.querySelector('.menu_levels[data-menu-slug="' + slug + '"]');
+
+        if (targetBlock) {
+          deactivateAll();
+          targetBlock.classList.add('active_menu');
+          targetBlock.classList.remove('inactive_menu');
+          this.classList.add('active');
+
+          // Close active submenus inside other blocks
+          document.querySelectorAll('header-menu').forEach(function(menu) {
+            if (menu !== targetBlock.querySelector('header-menu')) {
+              menu.setAttribute('aria-expanded', 'false');
+              const activeSub = menu.querySelector('[data-active]');
+              if (activeSub) {
+                delete activeSub.dataset.active;
+                activeSub.setAttribute('inert', '');
+              }
+            }
+          });
+
+          // Reset submenu heights
+          if (headerComponent) {
+            headerComponent.style.setProperty('--submenu-height', '0px');
+            headerComponent.style.setProperty('--full-open-header-height', '0px');
+          }
+        }
+      });
+    });
+
+    const headerWrapper = document.querySelector('.header-wrapper');
+    if (headerWrapper) {
+      headerWrapper.addEventListener('pointerleave', function() {
+        const defaultBlock = document.querySelector('.menu_levels');
+        if (defaultBlock) {
+          deactivateAll();
+          defaultBlock.classList.add('active_menu');
+          defaultBlock.classList.remove('inactive_menu');
+        }
+      });
+    }
+  });
+</script>
 {% unless request.design_mode %}
   <script type="module">
     import { hydrate } from '@theme/section-hydration';
@@ -1227,6 +1504,27 @@
     {
       "type": "header",
       "content": "t:content.menu"
+    },
+    {
+      "type": "text",
+      "id": "hover_slug_1",
+      "label": "Hover Slug 1",
+      "default": "shop",
+      "info": "Enter the parent link handle this menu should hover under (e.g. shop)"
+    },
+    {
+      "type": "text",
+      "id": "hover_slug_2",
+      "label": "Hover Slug 2",
+      "default": "support",
+      "info": "Enter the parent link handle this menu should hover under (e.g. support)"
+    },
+    {
+      "type": "text",
+      "id": "hover_slug_3",
+      "label": "Hover Slug 3",
+      "default": "learn",
+      "info": "Enter the parent link handle this menu should hover under (e.g. learn)"
     },
     {
       "type": "select",
@@ -1287,6 +1585,12 @@
       "id": "show_search",
       "label": "t:settings.search_icon",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_form",
+      "label": "Show search form",
+      "default": false
     },
     {
       "type": "select",

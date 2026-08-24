@@ -31,7 +31,19 @@
       class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
       aria-hidden="true"
     >
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      <svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_2984_846)">
+          <path d="M8.8233 20C9.79792 20 10.588 19.2099 10.588 18.2353C10.588 17.2607 9.79792 16.4706 8.8233 16.4706C7.84868 16.4706 7.05859 17.2607 7.05859 18.2353C7.05859 19.2099 7.84868 20 8.8233 20Z" fill="#1A1B1B"></path>
+          <path d="M18.2354 20C19.21 20 20.0001 19.2099 20.0001 18.2353C20.0001 17.2607 19.21 16.4706 18.2354 16.4706C17.2608 16.4706 16.4707 17.2607 16.4707 18.2353C16.4707 19.2099 17.2608 20 18.2354 20Z" fill="#1A1B1B"></path>
+          <path d="M1.17676 1.17645H4.58852L7.88264 12.1176L20 11.1176L22.3532 4.70586H5.88264" stroke="#1A1B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M7.76465 12L6.80111 13.4453C6.35808 14.1099 6.83447 15 7.63317 15H19.7646" stroke="#1A1B1B" stroke-width="1.5" stroke-linecap="round"></path>
+          </g>
+          <defs>
+          <clipPath id="clip0_2984_846">
+          <rect width="23.5294" height="20" fill="white"></rect>
+          </clipPath>
+          </defs>
+          </svg>
     </span>
 
     {% render 'cart-bubble', limit: 100 %}
@@ -39,22 +51,11 @@
 {% endcapture %}
 
 {% capture account_icon %}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="17"
-    viewBox="0 0 15 17"
-    fill="none"
-    slot="signed-out-avatar"
-    class="account-button__icon"
-  >
-    <path
-      stroke="currentColor"
-      stroke-linejoin="round"
-      stroke-width="var(--icon-stroke-width)"
-      d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z"
-    />
-  </svg>
+  <svg class="icon-account" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M27.9999 27.9774C27.9999 25.0115 25.6999 22.4546 22.3999 21.5342" stroke="#1A1B1B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M17.2 21.6365C14.2 22.5569 12 25.1137 12 27.9774" stroke="#1A1B1B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M20.1001 22.0227C22.8615 22.0227 25.1001 19.7841 25.1001 17.0227C25.1001 14.2613 22.8615 12.0227 20.1001 12.0227C17.3387 12.0227 15.1001 14.2613 15.1001 17.0227C15.1001 19.7841 17.3387 22.0227 20.1001 22.0227Z" stroke="#1A1B1B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
 {% endcapture %}
 
 <header-actions

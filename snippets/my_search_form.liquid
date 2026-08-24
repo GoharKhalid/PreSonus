@@ -1,0 +1,46 @@
+<div class="search-box">
+  <svg class="icon-search" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M23.8929 22.6084L28.7348 27.4503C28.905 27.6206 29.0005 27.8515 29.0004 28.0923C29.0004 28.3331 28.9046 28.5639 28.7343 28.7341C28.564 28.9043 28.3331 28.9999 28.0923 28.9998C27.8516 28.9997 27.6207 28.904 27.4505 28.7337L22.6086 23.8918C21.1612 25.0129 19.341 25.5404 17.5184 25.3672C15.6958 25.1939 14.0077 24.3328 12.7975 22.959C11.5872 21.5853 10.9458 19.8021 11.0036 17.9722C11.0614 16.1423 11.8142 14.4032 13.1088 13.1086C14.4034 11.814 16.1425 11.0612 17.9724 11.0034C19.8023 10.9455 21.5855 11.587 22.9593 12.7973C24.333 14.0075 25.1941 15.6956 25.3674 17.5182C25.5406 19.3408 25.0131 21.161 23.892 22.6084H23.8929ZM18.2005 23.5993C19.6327 23.5993 21.0061 23.0304 22.0188 22.0177C23.0315 21.005 23.6004 19.6315 23.6004 18.1994C23.6004 16.7673 23.0315 15.3938 22.0188 14.3811C21.0061 13.3684 19.6327 12.7995 18.2005 12.7995C16.7684 12.7995 15.3949 13.3684 14.3822 14.3811C13.3695 15.3938 12.8006 16.7673 12.8006 18.1994C12.8006 19.6315 13.3695 21.005 14.3822 22.0177C15.3949 23.0304 16.7684 23.5993 18.2005 23.5993Z" fill="#1A1B1B"></path>
+  </svg>
+
+  <input type="text" placeholder="Search" on:click="#search-modal/showDialog">
+</div>
+
+{% style %}
+  .search-box {
+    width: 200px;
+    height: 40px;
+    background: #f3f3f3;
+    border-radius: 30px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .search-box svg {
+    flex-shrink: 0;
+    color: #181818;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: "helvetica", sans-serif;
+    font-size: 16px;
+    color: #181818;
+    width: 100%;
+  }
+
+  .search-box input::placeholder {
+    color: #707070;
+    opacity: 1;
+  }
+  @media screen and (max-width: 767px) {
+    .search-box {display: none;
+    }
+  }
+{% endstyle %}

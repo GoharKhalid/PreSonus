@@ -15,7 +15,10 @@
   <span class="footer-utilities__text">
     &copy; {{ 'now' | date: '%Y' }}
     {{ shop.name | link_to: routes.root_url -}}
-    {%- if block_settings.show_powered_by -%}
+    {%- if block_settings.append_text -%}
+      , {{ block_settings.custom_text }}
+    {%- endif -%}
+     {%- if block_settings.show_powered_by -%}
       , {{ powered_by_link }}
     {%- endif -%}
   </span>
@@ -37,6 +40,20 @@
       "id": "show_powered_by",
       "label": "t:settings.show_powered_by_shopify",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "append_text",
+      "label": "Append Text",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_text",
+      "label": "Custom Text",
+      "info": "This text will be appended to the copyright notice.",
+      "placeholder": "Enter your custom text here",
+      "visible_if": "{{ block.settings.append_text }}"
     },
     {
       "type": "paragraph",

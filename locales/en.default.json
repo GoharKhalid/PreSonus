@@ -133,7 +133,7 @@
     },
     "email_signup": {
       "label": "Email",
-      "placeholder": "Email address",
+      "placeholder": "Enter your email address",
       "success": "Thanks for subscribing!"
     },
     "filter": "Filter",

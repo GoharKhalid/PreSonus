@@ -47,6 +47,7 @@
             {% for link in block_settings.menu.links %}
               <li>
                 <a
+                  style="color:black; font-size: 14px; font-weight: 600;"
                   href="{{ link.url }}"
                   id="MenuItem-{{ link.handle }}"
                   class="menu-list__item"
@@ -89,12 +90,14 @@
       elsif block_settings.menu_style == 'featured_products'
         assign ratio = block_settings.featured_products_aspect_ratio
       endif
+      
     %}
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
         <li
           class="menu-list__list-item"
+          data-menu-slug="{{ link.handle }}"
           on:blur="/deactivate"
           on:pointerenter="/activate"
           on:pointerleave="/deactivate"
@@ -105,6 +108,7 @@
           <a
             href="{{ link.url }}"
             data-skip-node-update="true"
+            data-menu-slug="{{ link.handle }}"
             class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
             {% if link.current %}
               aria-current="page"
@@ -823,6 +827,7 @@
       "label": "t:settings.menu",
       "default": "main-menu"
     },
+
     {
       "type": "header",
       "content": "t:content.appearance"
@@ -948,6 +953,10 @@
         {
           "value": "text",
           "label": "t:options.none"
+        },
+        {
+          "value": "simple_text",
+          "label": "t:options.simple_text"
         },
         {
           "value": "collection_images",

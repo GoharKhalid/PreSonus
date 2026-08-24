@@ -1,0 +1,108 @@
+<div class="footer-menu">
+
+  {% if block.settings.enable_menu_title and block.settings.menu_title != blank %}
+    <h2 class="footer-menu__title">
+      {{ block.settings.menu_title }}
+    </h2>
+  {% endif %}
+
+  {% if block.settings.menu != blank %}
+    <nav class="footer-menu__nav">
+      <ul class="footer-menu__list">
+
+        {% for link in block.settings.menu.links %}
+          <li class="footer-menu__item">
+            <a
+              href="{{ link.url }}"
+              class="footer-menu__link"
+            >
+              {{ link.title }}
+            </a>
+          </li>
+        {% endfor %}
+
+      </ul>
+    </nav>
+  {% endif %}
+
+</div>
+{% stylesheet %}
+.footer-menu {
+  width: 100%;
+  background: #191919;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.footer-menu__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-menu__item {
+  display: flex;
+  align-items: center;
+}
+
+.footer-menu__item:not(:last-child)::after {
+  content: "";
+  width: 1px;
+  height: 18px;
+  background: #555;
+  margin: 0 15px;
+}
+
+.footer-menu__link {
+  color: #bdbdbd;
+  text-decoration: none;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.footer-menu__link:hover {
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.footer-menu__title {
+  margin: 0 0 20px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 24px;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "My Footer Menu",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_menu_title",
+      "label": "Enable Menu Title",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "menu_title",
+      "label": "Menu Title",
+      "visible_if": "{{ block.settings.enable_menu_title }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "My Footer Menu"
+    }
+  ]
+}
+{% endschema %}
