@@ -1,4 +1,3 @@
-
 {%- doc -%}
   Renders a header menu block.
 
@@ -9,8 +8,9 @@
 {% liquid
   assign block_settings = block.settings
   assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
-%}
 
+  assign parent_menu_slug = block_settings.parent_menu_item | handleize
+%}
 {% case variant %}
   {% when 'mobile' %}
     <div
@@ -64,6 +64,12 @@
       </div>
     {% endif %}
   {% else %}
+    {% if parent_menu_slug != blank %}
+  <div
+    class="menu_levels inactive_menu"
+    data-menu-slug="{{ parent_menu_slug }}"
+  >
+{% endif %}
     {% liquid
       assign block_settings = block.settings
       assign menu_content_type = block_settings.menu_style | default: 'text'
@@ -90,18 +96,19 @@
       elsif block_settings.menu_style == 'featured_products'
         assign ratio = block_settings.featured_products_aspect_ratio
       endif
-      
     %}
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
         <li
-          class="menu-list__list-item"
-          data-menu-slug="{{ link.handle }}"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
-        >
+  class="menu-list__list-item{% if link.links == blank %} menu-list__list-item--leaf{% endif %}"
+  data-menu-slug="{{ link.handle }}"
+  {% if link.links != blank %}
+    on:blur="/deactivate"
+    on:pointerenter="/activate"
+    on:pointerleave="/deactivate"
+  {% endif %}
+>
           {%- if link.links != blank -%}
             <span class="menu-list__trigger">
           {%- endif -%}
@@ -141,31 +148,35 @@
               Collapsed by default via `inert`: keeps the submenu out of the tab order
               and the accessibility tree until it is opened. Toggled in header-menu.js.
             {%- endcomment -%}
-            <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]" inert>
+            <div class="menu-list__submenu{{ background_color_classes }} {% if menu_content_type == 'custom_mega_menu' %} is-custom-mega-menu{% endif %}" ref="submenu[]" inert>
               <div
                 id="submenu-{{ forloop.index }}"
                 class="menu-list__submenu-inner"
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
-                {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
-                      parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
-                    %}
+                {%- if menu_content_type == 'custom_mega_menu' -%}
+                  {% render 'luxury-mega-menu', menu_item: link, is_header_menu: true %}
+                {%- else -%}
+                  {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
                   </div>
-                </div>
+                {%- endif -%}
               </div>
             </div>
           {%- endif -%}
@@ -221,6 +232,11 @@
         fetchpriority="low"
       ></script>
     </header-menu>
+
+{% if parent_menu_slug != blank %}
+  </div>
+{% endif %}
+
 {% endcase %}
 
 {% style %}
@@ -814,6 +830,54 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+
+  /* Custom Mega Menu overrides */
+  .menu-list__submenu.is-custom-mega-menu {
+    background-color: #ffffff !important;
+    border-top: 1px solid #e4e4e4 !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08) !important;
+    clip-path: none !important;
+    content-visibility: visible !important;
+  }
+
+  .menu-list__submenu.is-custom-mega-menu .presonus-nav-dropdown.is-header-menu {
+    position: static !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .menu-list__submenu.is-custom-mega-menu .is-header-menu .presonus-nav-dropdown__container {
+    padding: 40px 56px 45px !important;
+  }
+  /* Secondary nav color fix */
+  /* Secondary navigation leaf links */
+
+  .menu-list__submenu.is-custom-mega-menu {
+    top: 100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e4e4e4 !important;
+    clip-path: none !important;
+    content-visibility: visible !important;
+  }
+
+  .menu-list__submenu.is-custom-mega-menu > .menu-list__submenu-inner {
+    display: block !important;
+    transform: none !important;
+    padding: 0 !important;
+    max-height: calc(100vh - var(--header-height) - 50px);
+    overflow-y: auto;
+  }
+
 {% endstylesheet %}
 
 {% schema %}
@@ -827,7 +891,12 @@
       "label": "t:settings.menu",
       "default": "main-menu"
     },
-
+    {
+  "type": "text",
+  "id": "parent_menu_item",
+  "label": "Show this menu under",
+  "info": "Enter the main header item title, for example: Shop. Leave blank for the main header menu."
+},
     {
       "type": "header",
       "content": "t:content.appearance"
@@ -957,6 +1026,10 @@
         {
           "value": "simple_text",
           "label": "t:options.simple_text"
+        },
+        {
+          "value": "custom_mega_menu",
+          "label": "Custom Mega Menu"
         },
         {
           "value": "collection_images",

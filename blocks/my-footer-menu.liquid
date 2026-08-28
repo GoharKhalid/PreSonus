@@ -75,6 +75,16 @@
   text-align: center;
   font-size: 24px;
 }
+@media(max-width:720px){
+  .footer-menu__list {
+  display: grid;
+  grid-template-columns: repeat(2, [col-start] 1fr);
+  gap: 10px;
+}
+.footer-menu__item:not(:last-child)::after {
+  width: 0px;
+}
+}
 {% endstylesheet %}
 
 {% schema %}

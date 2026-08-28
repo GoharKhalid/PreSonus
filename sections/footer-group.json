@@ -50,8 +50,8 @@
             "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 32,
-            "padding-inline-end": 32
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "group_gdGwdK": {
@@ -274,7 +274,7 @@
                         "heading": "Company",
                         "menu_spacing": 15,
                         "show_as_accordion": true,
-                        "accordion_icon": "caret",
+                        "accordion_icon": "plus",
                         "accordion_dividers": true,
                         "background_color": "",
                         "text_color": "{{ settings.color_palette.background }}",
@@ -510,7 +510,8 @@
       ],
       "custom_css": [
         "button.email-signup__button.email-signup__button--integrated.email-signup__button--text.h4.button-unstyled.button-unstyled--AZVRlQ3VmUnZ6Z0Y4S__email_signup_J7VH9a {margin: 0px !important;}",
-        ".email-signup__input {padding: 20px;}"
+        ".email-signup__input {padding: 20px;}",
+        "@media (max-width: 720px) {}"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -649,9 +650,10 @@
         "group_EHpXni"
       ],
       "custom_css": [
-        ".spacing-style.layout-panel-flex.layout-panel-flex--row.section-content-wrapper.mobile-column {border-bottom: 1px solid #4f5050;}",
+        ".spacing-style.layout-panel-flex.layout-panel-flex--row.section-content-wrapper.mobile-column {border-bottom: 1px solid #4f5050; padding-left: 5px; padding-right: 5px;}",
         ".sel-bothContainer {border-radius: 100px !important; overflow: hidden;}",
-        ".cOWvrO {border-radius: 100px !important; overflow: hidden;}"
+        ".cOWvrO {border-radius: 100px !important; overflow: hidden;}",
+        "@media(max-width:720px){.group-block-content.layout-panel-flex.layout-panel-flex--column.mobile-column {align-items: center;}}"
       ],
       "name": "t:names.custom_section",
       "settings": {
@@ -715,7 +717,7 @@
         "footer_copyright_behykG"
       ],
       "custom_css": [
-        ".spacing-style.layout-panel-flex.layout-panel-flex--column.section-content-wrapper.mobile-column {padding-left: 32px !important; padding-right: 32px !important;}"
+        ".spacing-style.layout-panel-flex.layout-panel-flex--column.section-content-wrapper.mobile-column {padding-left: 5px !important; padding-right: 5px !important;}"
       ],
       "name": "t:names.custom_section",
       "settings": {

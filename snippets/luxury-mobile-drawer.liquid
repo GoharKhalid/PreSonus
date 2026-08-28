@@ -1,0 +1,248 @@
+<div class="luxury-mobile-overlay"></div>
+
+<div class="luxury-mobile-menu">
+
+  <div class="luxury-mobile-header">
+
+    <div class="luxury-mobile-logo">
+
+      {% if section.settings.logo != blank %}
+
+        {{
+          section.settings.logo
+          | image_url: width: 400
+          | image_tag:
+            loading: 'lazy'
+        }}
+
+      {% else %}
+
+        {{ shop.name }}
+
+      {% endif %}
+
+    </div>
+
+    <button
+      class="luxury-mobile-close"
+      aria-label="Close Menu"
+    >
+      ✕
+    </button>
+
+  </div>
+
+  {% if section.settings.enable_mobile_search %}
+
+    <div class="luxury-mobile-search">
+
+      <form
+        action="{{ routes.search_url }}"
+        method="get"
+      >
+
+        <input
+          type="search"
+          name="q"
+          placeholder="{{ section.settings.mobile_search_placeholder }}"
+        >
+
+        <button type="submit">
+
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+  <circle cx="11" cy="11" r="7"></circle>
+  <path d="M20 20L16.65 16.65"></path>
+</svg>
+
+        </button>
+
+      </form>
+
+    </div>
+
+  {% endif %}
+
+  <div class="luxury-mobile-navigation">
+
+    <ul class="luxury-mobile-nav-list">
+
+      {% for link in menu.links %}
+
+        <li class="luxury-mobile-item">
+
+          {% if link.links != blank %}
+
+            <details class="luxury-mobile-accordion">
+
+              <summary>
+
+                <span>
+                  {{ link.title }}
+                </span>
+
+                <span class="luxury-mobile-plus">
+                  +
+                </span>
+
+              </summary>
+
+              <div class="luxury-mobile-submenu">
+
+                <ul>
+
+                  {% for childlink in link.links %}
+
+                    <li>
+
+                      <a href="{{ childlink.url }}">
+                        {{ childlink.title }}
+                      </a>
+
+                      {% if childlink.links != blank %}
+
+                        <ul class="luxury-mobile-third-level">
+
+                          {% for grandchild in childlink.links %}
+
+                            <li>
+
+                              <a href="{{ grandchild.url }}">
+                                {{ grandchild.title }}
+                              </a>
+
+                            </li>
+
+                          {% endfor %}
+
+                        </ul>
+
+                      {% endif %}
+
+                    </li>
+
+                  {% endfor %}
+
+                </ul>
+
+              </div>
+
+            </details>
+
+          {% else %}
+
+            <a
+              href="{{ link.url }}"
+              class="luxury-mobile-link"
+            >
+              {{ link.title }}
+            </a>
+
+          {% endif %}
+
+        </li>
+
+      {% endfor %}
+
+    </ul>
+
+  </div>
+
+  <div class="luxury-mobile-footer">
+
+    {% if section.settings.show_mobile_account %}
+
+      <a
+        href="{{ routes.account_url }}"
+        class="luxury-mobile-account"
+      >
+
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+  <circle cx="12" cy="8" r="4"></circle>
+  <path d="M4 20C4 16.5 7.5 14 12 14C16.5 14 20 16.5 20 20"></path>
+</svg>
+
+        <span>
+          {{ section.settings.mobile_account_text }}
+        </span>
+
+      </a>
+
+    {% endif %}
+
+    {% if section.settings.show_mobile_wishlist %}
+
+      <a
+        href="{{ section.settings.mobile_wishlist_url }}"
+        class="luxury-mobile-wishlist"
+      >
+
+        ♥
+
+        <span>
+          {{ section.settings.mobile_wishlist_text }}
+        </span>
+
+      </a>
+
+    {% endif %}
+
+    {% if section.settings.show_mobile_cart %}
+
+      <a
+        href="{{ routes.cart_url }}"
+        class="luxury-mobile-cart"
+      >
+
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+  <circle cx="9" cy="20" r="1"></circle>
+  <circle cx="18" cy="20" r="1"></circle>
+  <path d="M3 4H5L7.5 15H18.5L21 7H6"></path>
+</svg>
+
+        <span>
+          {{ section.settings.mobile_cart_text }}
+        </span>
+
+        <span class="luxury-mobile-cart-count">
+          {{ cart.item_count }}
+        </span>
+
+      </a>
+
+    {% endif %}
+
+  </div>
+
+  {% if section.settings.show_mobile_language %}
+
+    <div class="luxury-mobile-language">
+
+      {% form 'localization' %}
+
+        <select
+          name="locale_code"
+          onchange="this.form.submit();"
+        >
+
+          {% for language in localization.available_languages %}
+
+            <option
+              value="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}
+                selected
+              {% endif %}
+            >
+              {{ language.endonym_name }}
+            </option>
+
+          {% endfor %}
+
+        </select>
+
+      {% endform %}
+
+    </div>
+
+  {% endif %}
+
+</div>

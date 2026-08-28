@@ -472,119 +472,15 @@
       </div>
     {% endif %}
   {% endfor %}
-  {% comment %}
-    {% if section.settings.header_menu_one or section.settings.header_menu_two or section.settings.header_menu_three %}
-      <nav class="custom-header-menu">
-
-        {% if section.settings.header_menu_one %}
-          <a href="{{ linklists[section.settings.menu_one_list].links.first.url }}"
-             class="custom-menu-item active">
-            {{ section.settings.menu_one_title }}
-          </a>
-        {% endif %}
-
-        {% if section.settings.header_menu_two %}
-          <a href="{{ linklists[section.settings.menu_two_list].links.first.url }}"
-             class="custom-menu-item">
-            {{ section.settings.menu_two_title }}
-          </a>
-        {% endif %}
-
-        {% if section.settings.header_menu_three %}
-          <a href="{{ linklists[section.settings.menu_three_list].links.first.url }}"
-             class="custom-menu-item">
-            {{ section.settings.menu_three_title }}
-          </a>
-        {% endif %}
-
-      </nav>
-    {% endif %}
-    {% endif %}
-      {% if navigation_bar != blank %}
+        {% if navigation_bar != blank %}
         <div class="header__row header__navigation-bar-row">
           {{ navigation_bar }}
         </div>
       {% endif %}
-  {% endcomment %}
-  {% comment %}
-    <div class="custom-navigation">
-
-      <div class="custom-navigation__titles">
-
-        {% if section.settings.header_menu_one %}
-          <button
-            type="button"
-            class="custom-navigation__title active"
-            data-menu="menu-one"
-          >
-            {{ section.settings.menu_one_title }}
-          </button>
-        {% endif %}
-
-        {% if section.settings.header_menu_two %}
-          <button
-            type="button"
-            class="custom-navigation__title"
-            data-menu="menu-two"
-          >
-            {{ section.settings.menu_two_title }}
-          </button>
-        {% endif %}
-
-        {% if section.settings.header_menu_three %}
-          <button
-            type="button"
-            class="custom-navigation__title"
-            data-menu="menu-three"
-          >
-            {{ section.settings.menu_three_title }}
-          </button>
-        {% endif %}
-
-      </div>
-
-      <div class="custom-navigation__submenu">
-
-        {% if section.settings.header_menu_one %}
-          <div class="custom-submenu active" data-submenu="menu-one">
-            {% for link in section.settings.menu_one_list.links %}
-              <a href="{{ link.url }}">
-                {{ link.title }}
-              </a>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% if section.settings.header_menu_two %}
-          <div class="custom-submenu" data-submenu="menu-two">
-            {% for link in section.settings.menu_two_list.links %}
-              <a href="{{ link.url }}">
-                {{ link.title }}
-              </a>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        {% if section.settings.header_menu_three %}
-          <div class="custom-submenu" data-submenu="menu-three">
-            {% for link in section.settings.menu_three_list.links %}
-              <a href="{{ link.url }}">
-                {{ link.title }}
-              </a>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-      </div>
-    </div>
-  {% endcomment %}
-  <div class="level_one_menu menu_levels active_menu" data-menu-slug="{{ section.settings.hover_slug_1 }}">
+  
+  <div class="special_menu">
     {{ menu_one }}
-  </div>
-  <div class="level_two_menu menu_levels inactive_menu" data-menu-slug="{{ section.settings.hover_slug_2 }}">
     {{ menu_two }}
-  </div>
-  <div class="level_three_menu menu_levels inactive_menu" data-menu-slug="{{ section.settings.hover_slug_3 }}">
     {{ menu_three }}
   </div>
 </header-component>
@@ -595,8 +491,7 @@
 ></script>
 
 {% stylesheet %}
-
-  .inactive_menu{
+  .inactive_menu {
     display: none;
   }
   body {
@@ -1312,28 +1207,7 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
-  .custom-navigation {
-    position: relative;
-    width: 100%;
-    background: #fff;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  @media screen and (max-width: 749px) {
-    .custom-navigation {
-      display: none;
-    }
-  }
-  .custom-navigation__titles {
-    position: absolute;
-    top: -65px;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-  }
+  
   .custom-navigation__title {
     position: relative;
     height: 100%;
@@ -1341,125 +1215,228 @@
     border: 0;
     background: transparent;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: #111;
     cursor: pointer;
     display: flex;
     align-items: center;
   }
-  .custom-navigation__title.active::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 14px;
-    height: 2px;
-    background: #111;
+  a.menu-list__link.active{
+    text-decoration: underline solid;
+    text-underline-offset:27px;
+    text-decoration-thickness:2px !important;
+    z-index: 9;
+
   }
-  .custom-navigation__submenu {
-    min-height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #e5e5e5;
+
+  a.menu-list__link.active::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 14px !important;
+    height: 2px !important;
+    background: #111 !important;
   }
-  .custom-submenu {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-  }
-  .custom-submenu.active {
-    display: flex;
-  }
-  .custom-submenu a {
-    color: #111;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-  }
-  .custom-submenu a:hover {
-    text-decoration: underline;
+  a.menu-list__link.active{
+    position: relative !important;
   }
   header-menu,
   .header-menu a {
     color: black !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
-  header-menu,.header-menu a:hover {
+  header-menu,
+  .header-menu a:hover {
     color: black !important;
   }
-  .active_menu{
+  .active_menu {
     border-top: 1px solid #e5e5e5;
-    height: 50px;
+    height: 55px;
     align-items: center;
+    position: relative;
     display: flex;
     justify-content: center;
+  }
+  .menu_levels .menu-list__link {
+    font-size: 14px !important;
+    position: relative;
+  }
+  .menu-list__link-title a{
+    color:red !important;
+  }
+  @media(max-width:720px){
+    .active_menu{
+      display: none;
+    }
   }
 {% endstylesheet %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const triggers = document.querySelectorAll('[data-menu-slug]');
-    const blocks = document.querySelectorAll('.menu_levels');
-    const headerComponent = document.querySelector('header-component');
+    const header = document.querySelector('header-component');
 
-    function deactivateAll() {
-      blocks.forEach(function(block) {
-        block.classList.add('inactive_menu');
-        block.classList.remove('active_menu');
-      });
-      triggers.forEach(function(trigger) {
-        trigger.classList.remove('active');
-      });
+    if (!header) {
+      return;
     }
 
-    triggers.forEach(function(trigger) {
-      trigger.addEventListener('pointerenter', function() {
-        const slug = this.getAttribute('data-menu-slug');
-        if (!slug) return;
-        const targetBlock = document.querySelector('.menu_levels[data-menu-slug="' + slug + '"]');
+    let activeSlug = '';
 
-        if (targetBlock) {
-          deactivateAll();
-          targetBlock.classList.add('active_menu');
-          targetBlock.classList.remove('inactive_menu');
-          this.classList.add('active');
+    /*
+      menu according to slug
+    */
+    function showMenu(slug) {
+      const allMenus = header.querySelectorAll('.menu_levels');
+      let selectedMenu = null;
 
-          // Close active submenus inside other blocks
-          document.querySelectorAll('header-menu').forEach(function(menu) {
-            if (menu !== targetBlock.querySelector('header-menu')) {
-              menu.setAttribute('aria-expanded', 'false');
-              const activeSub = menu.querySelector('[data-active]');
-              if (activeSub) {
-                delete activeSub.dataset.active;
-                activeSub.setAttribute('inert', '');
-              }
-            }
-          });
+      allMenus.forEach(function (menu) {
+        const menuSlug = menu.getAttribute('data-menu-slug');
 
-          // Reset submenu heights
-          if (headerComponent) {
-            headerComponent.style.setProperty('--submenu-height', '0px');
-            headerComponent.style.setProperty('--full-open-header-height', '0px');
-          }
+        if (menuSlug === slug) {
+          selectedMenu = menu;
+
+          menu.classList.add('active_menu');
+          menu.classList.remove('inactive_menu');
+        } else {
+          menu.classList.remove('active_menu');
+          menu.classList.add('inactive_menu');
         }
       });
+
+      /*
+       if matching menu not found
+      */
+      if (!selectedMenu) {
+        return;
+      }
+
+      activeSlug = slug;
+
+      /*
+        Main header link par active class lagata hai
+      */
+      const allLinks = header.querySelectorAll('[data-menu-slug]');
+
+      allLinks.forEach(function (link) {
+        /*
+          Level menu ke andar ke links ko ignore karo
+        */
+        if (link.closest('.menu_levels')) {
+          return;
+        }
+
+        const linkSlug = link.getAttribute('data-menu-slug');
+
+        if (linkSlug === slug) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      /*
+        Purane menu ka open mega menu close karta hai
+      */
+      allMenus.forEach(function (menu) {
+        if (menu !== selectedMenu) {
+          const openSubmenu = menu.querySelector('[data-active]');
+
+          if (openSubmenu) {
+            openSubmenu.removeAttribute('data-active');
+            openSubmenu.setAttribute('inert', '');
+          }
+
+          const openButtons = menu.querySelectorAll('[aria-expanded="true"]');
+
+          openButtons.forEach(function (button) {
+            button.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+
+      /*
+        Header ki purani submenu height reset karta hai
+      */
+      header.style.setProperty('--submenu-height', '0px');
+      header.style.setProperty('--full-open-header-height', '0px');
+    }
+
+
+    /*
+      Check karta hai hover/click main menu par hua
+      ya level menu ke andar
+    */
+    function getMainMenuTrigger(event) {
+      const eventPath = event.composedPath();
+      let trigger = null;
+      let insideLevelMenu = false;
+
+      eventPath.forEach(function (element) {
+        if (element.classList && element.classList.contains('menu_levels')) {
+          insideLevelMenu = true;
+        }
+
+        if (!trigger && element.getAttribute && element.getAttribute('data-menu-slug')) {
+          trigger = element;
+        }
+      });
+
+      /*
+        Level menu ke andar hover hua ho to ignore karo
+      */
+      if (insideLevelMenu) {
+        return null;
+      }
+
+      return trigger;
+    }
+
+    /*
+      Pehla level menu page load par show karo
+    */
+    const firstMenu = header.querySelector('.menu_levels');
+
+    if (firstMenu) {
+      const firstSlug = firstMenu.getAttribute('data-menu-slug');
+
+      showMenu(firstSlug);
+    }
+
+    /*
+      Main menu item hover
+    */
+    document.addEventListener('mouseover', function (event) {
+      const trigger = getMainMenuTrigger(event);
+
+      if (!trigger) {
+        return;
+      }
+
+      const slug = trigger.getAttribute('data-menu-slug');
+
+      if (slug && slug !== activeSlug) {
+        showMenu(slug);
+      }
     });
 
-    const headerWrapper = document.querySelector('.header-wrapper');
-    if (headerWrapper) {
-      headerWrapper.addEventListener('pointerleave', function() {
-        const defaultBlock = document.querySelector('.menu_levels');
-        if (defaultBlock) {
-          deactivateAll();
-          defaultBlock.classList.add('active_menu');
-          defaultBlock.classList.remove('inactive_menu');
-        }
-      });
-    }
+    /*
+      Main menu item click — touch devices ke liye
+    */
+    document.addEventListener('click', function (event) {
+      const trigger = getMainMenuTrigger(event);
+
+      if (!trigger) {
+        return;
+      }
+
+      const slug = trigger.getAttribute('data-menu-slug');
+
+      const matchingMenu = header.querySelector('.menu_levels[data-menu-slug="' + slug + '"]');
+
+      if (matchingMenu) {
+        event.preventDefault();
+        showMenu(slug);
+      }
+    });
   });
 </script>
 {% unless request.design_mode %}
@@ -1504,27 +1481,6 @@
     {
       "type": "header",
       "content": "t:content.menu"
-    },
-    {
-      "type": "text",
-      "id": "hover_slug_1",
-      "label": "Hover Slug 1",
-      "default": "shop",
-      "info": "Enter the parent link handle this menu should hover under (e.g. shop)"
-    },
-    {
-      "type": "text",
-      "id": "hover_slug_2",
-      "label": "Hover Slug 2",
-      "default": "support",
-      "info": "Enter the parent link handle this menu should hover under (e.g. support)"
-    },
-    {
-      "type": "text",
-      "id": "hover_slug_3",
-      "label": "Hover Slug 3",
-      "default": "learn",
-      "info": "Enter the parent link handle this menu should hover under (e.g. learn)"
     },
     {
       "type": "select",
