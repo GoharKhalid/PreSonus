@@ -1,10 +1,8 @@
 <div class="custom-mega-menu">
   <div class="menu-container">
     <div class="menu-grid">
-
       {% for category in menu_item.links %}
         <div class="menu-column">
-
           <h4 class="menu-title">
             {{ category.title }}
           </h4>
@@ -13,7 +11,6 @@
 
           {% if category.links != blank %}
             <ul class="menu-links">
-
               {% for submenu_link in category.links %}
                 <li class="menu-item">
                   <a
@@ -24,13 +21,10 @@
                   </a>
                 </li>
               {% endfor %}
-
             </ul>
           {% endif %}
-
         </div>
       {% endfor %}
-
     </div>
   </div>
 </div>
@@ -104,19 +98,43 @@
     line-height: 1.45;
     text-decoration: none;
   }
+  .menu-link a {
+    font-size: 14px;
+  }
 
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 720px) {
     .menu-container {
       padding: 28px 20px;
     }
 
     .menu-grid {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 50px !important;
     }
 
     .menu-column {
       padding: 0;
+    }
+    .menu-title {
+      font-size: 16px !important;
+    }
+    .menu-drawer__list-item--divider .menu-drawer__menu-item:not(.menu-drawer__menu-item--child) {
+      font-size: 16px !important;
+      border-bottom: 1px solid #e5e5e5 !important;
+      font-weight: bold !important;
+    }
+    .menu-drawer__list-item--flat.menu-drawer__list-item--divider .menu-drawer__menu--grandchildlist {
+      font-size: 14px;
+    }
+    .menu-drawer__menu-item--child:first-child {
+      font-size: 14px;
+    }
+    .menu-drawer__list-item--divider {
+      border-block-end: 1px solid #e5e5e5 !important;
+      gap: 20px;
+    }
+    .menu-drawer__menu-item-text{
+      font-size:15px;
     }
   }
 </style>

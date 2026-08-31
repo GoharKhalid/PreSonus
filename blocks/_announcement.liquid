@@ -32,9 +32,6 @@
     <p class="announcement-bar__text">
       {{ block.settings.text }}
     </p>
-    <marquee class="announcement-bar_marquee">
-      {{ block.settings.text }}
-    </marquee>
 
     {% if block_settings.link != blank %}
       <a
@@ -48,19 +45,6 @@
     {% endif %}
   </slideshow-slide>
 {%- endunless -%}
-{% stylesheet %}
-@media(max-width:720px){
-  .annoucement-bar__text p{
-    display: none !important;
-  }
-  .announcement-bar__marquee marquee{
-    display: block !important;
-  }
-}
-.announcement-bar_marquee{
-  display: none !important;
-}
-{% endstylesheet %}
 
 {% schema %}
 {

@@ -103,11 +103,11 @@
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,
-            "navigation_bar": false,
+            "navigation_bar": true,
             "background_color_navigation_bar": "{{ settings.color_palette.background }}",
             "text_color_navigation_bar": "",
             "drawer_accordion": false,
-            "drawer_accordion_expand_first": false,
+            "drawer_accordion_expand_first": true,
             "drawer_dividers": false
           },
           "blocks": {}
