@@ -56,11 +56,31 @@
             "custom_width_mobile": 100
           },
           "blocks": {}
+        },
+        "button_3URcJU": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "See What's New",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button-secondary",
+            "custom_button_background": "rgba(0,0,0,0)",
+            "custom_button_text": "{{ settings.color_palette.background }}",
+            "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "text_YLPk4p",
-        "button_H9gpTf"
+        "button_H9gpTf",
+        "button_3URcJU"
       ],
       "name": "t:names.hero",
       "settings": {

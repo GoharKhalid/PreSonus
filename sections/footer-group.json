@@ -509,9 +509,9 @@
         "group_r9eJhj"
       ],
       "custom_css": [
-        "button.email-signup__button.email-signup__button--integrated.email-signup__button--text.h4.button-unstyled.button-unstyled--AZVRlQ3VmUnZ6Z0Y4S__email_signup_J7VH9a {margin: 0px !important;}",
+        ".email-signup__button{margin:0px !important;}",
         ".email-signup__input {padding: 20px;}",
-        "@media (max-width: 720px) {summary.menu__heading.h4{padding-bottom: 30px }}"
+        "@media (max-width: 720px) {summary.menu__heading.h4 {padding: 30px 0px; } .group-block-content.layout-panel-flex.layout-panel-flex--row.mobile-column {gap: 0px; }}"
       ],
       "name": "t:names.footer",
       "settings": {
