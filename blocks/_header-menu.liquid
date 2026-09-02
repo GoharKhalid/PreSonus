@@ -1,6 +1,6 @@
 {%- doc -%}
   Renders a header menu block.
-
+  @param {string} [mobile_menus] - Existing desktop menus rendered for mobile
   @param {string} [variant] - What version of the menu to render. Defaults to header menu.
   @param {string} [transparent] - Show a transparent menu
 {%- enddoc -%}
@@ -20,13 +20,20 @@
       {{ block.shopify_attributes }}
     >
       {% render 'header-drawer',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer',
-        block: block,
-        section: section
-      %}
+  linklist: block_settings.menu,
+  mobile_menus: mobile_menus,
+  data_header_drawer_type: 'mobile-drawer',
+  block: block,
+  section: section
+%}
     </div>
+{% when 'mobile_item' %}
 
+  {% render 'mobile-menu-item',
+    linklist: block_settings.menu,
+    parent_title: block_settings.parent_menu_item,
+    parent_slug: parent_menu_slug
+  %}
   {% when 'navigation_bar' %}
     {% if block_settings.navigation_bar == true %}
       {% render 'contrast-override',

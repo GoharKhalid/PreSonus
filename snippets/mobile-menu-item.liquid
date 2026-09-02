@@ -1,0 +1,283 @@
+{%- doc -%}
+  Renders an existing desktop menu inside the mobile drawer.
+
+  Menu structure:
+  - Parent title: Shop / Support / Learn
+  - First link: Opens a sliding panel
+  - Second link: Section title only
+  - Third link: Final clickable link
+
+  @param {object} linklist
+  @param {string} parent_title
+  @param {string} parent_slug
+{%- enddoc -%}
+
+{% if parent_title != blank and linklist != blank %}
+
+  <li class="menu-drawer__list-item">
+
+    <!-- Shop / Support / Learn -->
+    <details
+      id="MobileMenu-{{ parent_slug }}"
+      class="menu-drawer__menu-container"
+    >
+
+      <summary
+        class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element"
+        aria-expanded="false"
+        on:click="header-drawer/open/submenu"
+      >
+        <span class="menu-drawer__menu-item-text wrap-text">
+          {{ parent_title | escape }}
+        </span>
+
+        <span class="svg-wrapper icon-caret icon-caret--forward">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+      </summary>
+
+      <!-- Shop / Support / Learn sliding panel -->
+      <div
+        class="menu-drawer__submenu has-submenu"
+        tabindex="-1"
+      >
+
+        <div class="menu-drawer__inner-submenu">
+
+          <!-- Parent panel header -->
+          <div class="menu-drawer__nav-buttons menu-drawer__nav-buttons--with-title">
+
+            <!-- Back button -->
+            <button
+              class="button menu-drawer__back-button focus-inset"
+              type="button"
+              on:click="header-drawer/back"
+              aria-label="Back"
+            >
+              <span class="svg-wrapper icon-caret icon-caret--backward">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            <!-- Parent title -->
+            <span class="menu-drawer__title">
+              {{ parent_title | escape }}
+            </span>
+
+            <!-- Close button -->
+            <button
+              class="button button-unstyled close-button menu-drawer__close-button focus-inset"
+              type="button"
+              on:click="header-drawer/close"
+              aria-label="Close"
+            >
+              <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+                {{- 'icon-close-menu.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+          </div>
+
+          <!-- First menu level -->
+          <ul
+            class="menu-drawer__menu menu-drawer__menu--childlist"
+            role="list"
+          >
+
+            {% for first_link in linklist.links %}
+
+              <li class="menu-drawer__list-item">
+
+                {% if first_link.links != blank %}
+
+                  <!--
+                    First link opens a sliding panel.
+                    Example: Mixers & Networking
+                  -->
+                  <details
+                    id="MobileMenu-{{ parent_slug }}-{{ first_link.handle }}"
+                    class="menu-drawer__menu-container"
+                  >
+
+                    <summary
+                      class="menu-drawer__menu-item menu-drawer__menu-item--parent"
+                      aria-expanded="false"
+                      on:click="header-drawer/open/submenu"
+                    >
+                      <span class="menu-drawer__menu-item-text wrap-text">
+                        {{ first_link.title | escape }}
+                      </span>
+
+                      <span class="svg-wrapper icon-caret icon-caret--forward">
+                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                      </span>
+                    </summary>
+
+                    <!-- First-link sliding panel -->
+                    <div
+                      class="menu-drawer__submenu has-submenu"
+                      tabindex="-1"
+                    >
+
+                      <div class="menu-drawer__inner-submenu">
+
+                        <!-- First-link panel header -->
+                        <div class="menu-drawer__nav-buttons menu-drawer__nav-buttons--with-title">
+
+                          <!-- Back button -->
+                          <button
+                            class="button menu-drawer__back-button focus-inset"
+                            type="button"
+                            on:click="header-drawer/back"
+                            aria-label="Back"
+                          >
+                            <span class="svg-wrapper icon-caret icon-caret--backward">
+                              {{- 'icon-caret.svg' | inline_asset_content -}}
+                            </span>
+                          </button>
+
+                          <!-- Clickable first-link title -->
+                          <a
+                            href="{{ first_link.url }}"
+                            class="menu-drawer__title focus-inset"
+                            {% if first_link.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ first_link.title | escape }}
+                          </a>
+
+                          <!-- Close button -->
+                          <button
+                            class="button button-unstyled close-button menu-drawer__close-button focus-inset"
+                            type="button"
+                            on:click="header-drawer/close"
+                            aria-label="Close"
+                          >
+                            <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+                              {{- 'icon-close-menu.svg' | inline_asset_content -}}
+                            </span>
+                          </button>
+
+                        </div>
+
+                        <!--
+                          Final panel:
+
+                          second_link = Section title only
+                          third_link  = Final clickable link
+                        -->
+                        <ul
+                          class="menu-drawer__menu menu-drawer__menu--childlist mobile-final-menu"
+                          role="list"
+                        >
+
+                          {% for second_link in first_link.links %}
+
+                            <li class="mobile-final-menu__group">
+
+                              {% if second_link.links != blank %}
+
+                                <!--
+                                  Section title only.
+                                  Example: What's New / Shop By Type
+                                -->
+                                <h3 class="mobile-final-menu__title">
+                                  {{ second_link.title | escape }}
+                                </h3>
+
+                                <!-- Final clickable links -->
+                                <ul
+                                  class="mobile-final-menu__links"
+                                  role="list"
+                                >
+
+                                  {% for third_link in second_link.links %}
+
+                                    <li class="mobile-final-menu__link-item">
+
+                                      <a
+                                        href="{{ third_link.url }}"
+                                        class="menu-drawer__menu-item menu-drawer__menu-item--child mobile-final-menu__link{% if third_link.current %} menu-drawer__menu-item--active{% endif %}"
+                                        {% if third_link.current %}
+                                          aria-current="page"
+                                        {% endif %}
+                                      >
+                                        <span class="menu-drawer__menu-item-text wrap-text">
+                                          {{ third_link.title | escape }}
+                                        </span>
+                                      </a>
+
+                                    </li>
+
+                                  {% endfor %}
+
+                                </ul>
+
+                              {% else %}
+
+                                <!--
+                                  If the second link has no children,
+                                  show it as a direct clickable link.
+                                -->
+                                <a
+                                  href="{{ second_link.url }}"
+                                  class="menu-drawer__menu-item menu-drawer__menu-item--child mobile-final-menu__direct-link{% if second_link.current %} menu-drawer__menu-item--active{% endif %}"
+                                  {% if second_link.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  <span class="menu-drawer__menu-item-text wrap-text">
+                                    {{ second_link.title | escape }}
+                                  </span>
+                                </a>
+
+                              {% endif %}
+
+                            </li>
+
+                          {% endfor %}
+
+                        </ul>
+
+                      </div>
+
+                    </div>
+
+                  </details>
+
+                {% else %}
+
+                  <!--
+                    If the first link has no children,
+                    show it as a direct clickable link.
+                  -->
+                  <a
+                    href="{{ first_link.url }}"
+                    class="menu-drawer__menu-item menu-drawer__menu-item--parent{% if first_link.current %} menu-drawer__menu-item--active{% endif %}"
+                    {% if first_link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    <span class="menu-drawer__menu-item-text wrap-text">
+                      {{ first_link.title | escape }}
+                    </span>
+                  </a>
+
+                {% endif %}
+
+              </li>
+
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </details>
+
+  </li>
+
+{% endif %}

@@ -83,31 +83,50 @@
   endcapture
 
   capture menu
-    content_for 'block', type: '_header-menu', id: 'header-menu'
-  endcapture
+  content_for 'block', type: '_header-menu', id: 'header-menu'
+endcapture
 
-  capture drawer_menu
-    content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'mobile'
-  endcapture
+capture menu_one
+  content_for 'block', type: '_header-menu', id: 'header-menu-1'
+endcapture
 
-  capture navigation_bar
-    content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
-  endcapture
+capture menu_two
+  content_for 'block', type: '_header-menu', id: 'header-menu-2'
+endcapture
 
-  capture actions
-    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
-  endcapture
-  capture menu_one
-    content_for 'block', type: '_header-menu', id: 'header-menu-1'
-  endcapture
+capture menu_three
+  content_for 'block', type: '_header-menu', id: 'header-menu-3'
+endcapture
 
-  capture menu_two
-    content_for 'block', type: '_header-menu', id: 'header-menu-2'
-  endcapture
+capture mobile_menu_one
+  content_for 'block', type: '_header-menu', id: 'header-menu-1', variant: 'mobile_item'
+endcapture
 
-  capture menu_three
-    content_for 'block', type: '_header-menu', id: 'header-menu-3'
-  endcapture
+capture mobile_menu_two
+  content_for 'block', type: '_header-menu', id: 'header-menu-2', variant: 'mobile_item'
+endcapture
+
+capture mobile_menu_three
+  content_for 'block', type: '_header-menu', id: 'header-menu-3', variant: 'mobile_item'
+endcapture
+
+capture mobile_menus
+  echo mobile_menu_one
+  echo mobile_menu_two
+  echo mobile_menu_three
+endcapture
+
+capture drawer_menu
+  content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'mobile', mobile_menus: mobile_menus
+endcapture
+
+capture navigation_bar
+  content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
+endcapture
+
+capture actions
+  render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
+endcapture
 
   if shop.customer_accounts_enabled
     assign search_class = 'search-action--hidden-on-drawer'
